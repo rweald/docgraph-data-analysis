@@ -4,3 +4,5 @@ OSELicense.txt
 ProprietaryLicense.txt
 READMED.txt
 *.csv
+*.Rproj
+.Rproj*
