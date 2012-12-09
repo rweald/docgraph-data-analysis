@@ -1,3 +1,6 @@
+# Takes NPI Data dump file as first argument
+# Outputs "physician_npi_number,physician practice zip code"
+
 #!/usr/bin/env python
 import sys, csv
 
