@@ -29,9 +29,10 @@ NPISeenFirst,NPISeenSecond,PatientTransactionCount
   #"number_of_patients"
 #]
 
-header = ["nip_number", "zip", "lat", "long"]
+header = ["npi_number", "zip", "lat", "long"]
 
 output_csv.writerow(header)
 
-for (doc_1, zip_code) in input_csv:
+for (npi_number, zip_code) in input_csv:
   geo = zip_codes_to_location[zip_code]
+  output_csv.writerow([npi_number, zip_code, geo['lat'], geo['long']])
