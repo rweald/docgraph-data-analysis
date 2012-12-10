@@ -34,36 +34,40 @@ doc.with.location$distance <- earth.dist(doc.with.location$long.x,
                                          doc.with.location$lat.y)
 
 doc.with.location <- doc.with.location[with(doc.with.location, order(-distance)),]
-#Remove connects that are to close together to see on a large map
-docs.with.geographic.distance <- subset(doc.with.location, distance > 100)
 
-# only use a sample of the total connections to make iterating on UI easier
-#docs.with.geographic.distance <- docs.with.geographic.distance[sample(1:nrow(docs.with.geographic.distance), 5000, replace=F),]
-docs.with.geographic.distance$index <- 1:nrow(docs.with.geographic.distance)
+#Remove connects that are t0o close together to see on a large map
+doctor.connections <- subset(doc.with.location, distance > 100)
+
+# While iterating on UI use only a sample of the connections
+#doctor.connections <- doctor.connections[sample(1:nrow(doctor.connections), 5000, replace=F),]
+
+doctor.connections$index <- 1:nrow(doctor.connections)
 
 
 png("./map-of-connections.png", height=9216, width=16384)
 
 #Draw the base Map
-xlim <- c(-171.738281, -56.601563)
-ylim <- c(12.039321, 71.856229)
+x_limit <- c(-171.738281, -56.601563)
+y_limit <- c(12.039321, 71.856229)
 
-map("world", col="black", fill=FALSE, bg="black", lwd=0.01, xlim=xlim, ylim=ylim)
+map("world", col="black", fill=FALSE, bg="black", lwd=0.01, xlim=x_limit, ylim=y_limit)
 
 #Setup color scheme
-#pallet <- colorRampPalette(c("#0087E1", "#6AC4FF")) #Blue colorscheme 
 pallet <- colorRampPalette(c("#5B030B", "#E00619")) # Dark red colorscheme
-#pallet <- colorRampPalette(c("#840410", "#F70D23")) # Lighter red color scheme
 bin.width <- 1000
-colors <- pallet(ceiling(nrow(docs.with.geographic.distance) / bin.width))
+colors <- pallet(ceiling(nrow(doctor.connections) / bin.width))
 
 #Draw the connections
-apply(docs.with.geographic.distance, 1, function(row) {
+apply(doctor.connections, 1, function(row) {
         inter <- gcIntermediate(c(row[["long.x"]], row[["lat.x"]]), 
                                 c(row[["long.y"]], row[["lat.y"]]),
                                 n=50,
                                 addStartEnd=TRUE)
-        if(!row[["long.x"]] > xlim[2] && !row[["long.y"]] > xlim[2]){
+
+        # Remove connections outside scope of graph.
+        # These connections create annoying horizontal lines and weren't 
+        # worth the time to wrap around the edges
+        if(!row[["long.x"]] > x_limit[2] && !row[["long.y"]] > x_limit[2]){
           color = colors[ceiling(row[["index"]] / bin.width)]
           lines(inter, col = color, lwd = 0.8)
         }
