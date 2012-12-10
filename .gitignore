@@ -6,3 +6,5 @@ READMED.txt
 *.csv
 *.Rproj
 .Rproj*
+.Rproj.user
+map-of-connections.png
