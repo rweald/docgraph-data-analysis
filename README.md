@@ -2,7 +2,7 @@
 
 This repository contains my analyses of the [DocGraph](http://strata.oreilly.com/2012/11/docgraph-open-social-doctor-data.html) dataset.
 
-## Visualization of Geograhic connections between doctors
+## Visualization of Geographic connections between doctors
 
 * Read the [blog post](http://example.com)
 * Download the [full sized graphic](https://dl.dropbox.com/u/169290/DocGraph/map-of-connections-with-text-fullsize.png)
