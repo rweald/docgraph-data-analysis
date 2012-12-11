@@ -1,0 +1,16 @@
+Hi,
+     This is the proprietary-friendly license for the GraphDoc data set.
+
+Feel free to use this data set in any way you like, with the exception of:
+
+* Reselling the data in its raw form
+* Making a tool that can be trivially scrapped for someone to get this data
+* Otherwise enabling this dataset to go into the public domain without a license.
+
+This license is for one corporate entity, in perpetuity.
+New company = new license.
+
+Otherwise, have at it. Use this data in any way you like.
+Try to make the world a better place... but thats a suggestion, not a requirement.
+
+-FT
