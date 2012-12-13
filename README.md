@@ -8,7 +8,7 @@ This repository contains my analyses of the [DocGraph](http://strata.oreilly.com
 * Download the [full sized graphic](https://dl.dropbox.com/u/169290/DocGraph/map-of-connections-with-text-fullsize.png)
 * Checkout the [code](http://example.com)
 
-![Geographic Doctor to Doctor Connections](https://dl.dropbox.com/u/169290/DocGraph/map-of-connections-with-text-thumbnail.png)
+![Geographic Doctor to Doctor Connections](https://s3.amazonaws.com/rweald-docgraph-analysis/map-of-connections-with-text-thumbnail.png)
 
 
 ## License
