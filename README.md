@@ -4,9 +4,9 @@ This repository contains my analyses of the [DocGraph](http://strata.oreilly.com
 
 ## Visualization of Geographic connections between doctors
 
-* Read the [blog post](http://example.com)
-* Download the [full sized graphic](https://dl.dropbox.com/u/169290/DocGraph/map-of-connections-with-text-fullsize.png)
-* Checkout the [code](http://example.com)
+* Read the [blog post](http://isurfsoftware.com/blog/2012/12/13/visualizing-geographic-connections-between-us-doctors/)
+* Download the [full sized graphic](https://s3.amazonaws.com/rweald-docgraph-analysis/map-of-connections-with-text-fullsize.png)
+* Checkout the [code](https://github.com/rweald/docgraph-data-analysis/tree/master/visualize-geographic-connections)
 
 ![Geographic Doctor to Doctor Connections](https://s3.amazonaws.com/rweald-docgraph-analysis/map-of-connections-with-text-thumbnail.png)
 
@@ -15,7 +15,7 @@ This repository contains my analyses of the [DocGraph](http://strata.oreilly.com
 
 [DocGraph](http://strata.oreilly.com/2012/11/docgraph-open-social-doctor-data.html) 
 data is used under the terms of the [DocGraph](http://strata.oreilly.com/2012/11/docgraph-open-social-doctor-data.html)
-data license which can be found [here](http://example.com)
+data license which can be found [here](https://github.com/rweald/docgraph-data-analysis/tree/master/docgraph-data-licenses)
 
 All code is licensed under the MIT License:
 
