@@ -44,13 +44,14 @@ doctor.connections <- subset(doc.with.location, distance > 100)
 doctor.connections$index <- 1:nrow(doctor.connections)
 
 
-png("./map-of-connections.png", height=9216, width=16384)
+png("./map-of-connections.png", width=9600, height=5400)
+par(mar=c(5,3,2,2)+0.1)
 
 #Draw the base Map
 x_limit <- c(-171.738281, -56.601563)
 y_limit <- c(12.039321, 71.856229)
 
-map("world", col="black", fill=FALSE, bg="black", lwd=0.01, xlim=x_limit, ylim=y_limit)
+map("state", col="black", fill=FALSE, bg="black", lwd=0.01)
 
 #Setup color scheme
 pallet <- colorRampPalette(c("#5B030B", "#E00619")) # Dark red colorscheme
