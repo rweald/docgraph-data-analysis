@@ -23,3 +23,10 @@ There are several data cleaning steps necessary before you can generate the visu
 
 3. Run the R script using your preferred method 
     
+
+## Notes
+If you want to use a sample of the data for faster development speed you can get one using the following unix command:
+
+```
+cat refer.2011.csv | awk 'BEGIN {srand()} !/^$/ { if (rand() <= 0.1) print $0}' > refer.2011.sample.csv
+```
