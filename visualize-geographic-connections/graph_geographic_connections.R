@@ -74,5 +74,5 @@ apply(doctor.connections, 1, function(row) {
         }
      })
 
-#Render image to PDF
+#Render image
 dev.off()
