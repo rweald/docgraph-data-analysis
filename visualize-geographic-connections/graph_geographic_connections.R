@@ -1,6 +1,7 @@
 library(ggplot2)
 library(maps)
 library(geosphere)
+library(plyr)
 
 # This function is curtosy of
 # http://menugget.blogspot.com/2011/05/r-functions-for-earth-geographic_29.html
@@ -20,7 +21,7 @@ earth.dist <- function (long1, lat1, long2, lat2) {
 }
 
 npi.to.location <- read.csv("npi_to_location.csv")
-referrer.data <- read.csv("refer.2011.sample.csv", header=F)
+referrer.data <- read.csv("refer.2011.sample2.csv", header=F)
 colnames(referrer.data) <- c("doc1", "doc2", "number.of.patients")
 
 interm.join <- merge(referrer.data, npi.to.location, by.x = "doc1", by.y = "npi_number")
@@ -39,12 +40,12 @@ doc.with.location <- doc.with.location[with(doc.with.location, order(-distance))
 doctor.connections <- subset(doc.with.location, distance > 100)
 
 # While iterating on UI use only a sample of the connections
-#doctor.connections <- doctor.connections[sample(1:nrow(doctor.connections), 5000, replace=F),]
+doctor.connections <- doctor.connections[sample(1:nrow(doctor.connections), 100000, replace=F),]
 
 doctor.connections$index <- 1:nrow(doctor.connections)
 
 
-png("./map-of-connections.png", width=9600, height=5400)
+png("./map-of-connections-dev.png", width=9600, height=5400)
 par(mar=c(5,3,2,2)+0.1)
 
 #Draw the base Map
@@ -70,7 +71,9 @@ apply(doctor.connections, 1, function(row) {
         # worth the time to wrap around the edges
         if(!row[["long.x"]] > x_limit[2] && !row[["long.y"]] > x_limit[2]){
           color = colors[ceiling(row[["index"]] / bin.width)]
-          lines(inter, col = color, lwd = 0.8)
+          segment.color.gradient <- colorRampPalette(c(color, "#103074"))(50)
+          s <- seq(length(inter[,"lon"]) - 1)
+          segments(inter[s,"lon"], inter[s, "lat"], inter[s+1, "lon"], inter[s+1, "lat"], col = segment.color.gradient, lwd = 0.8)
         }
      })
 
