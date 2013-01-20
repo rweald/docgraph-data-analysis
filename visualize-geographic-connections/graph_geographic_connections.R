@@ -40,7 +40,7 @@ doc.with.location <- doc.with.location[with(doc.with.location, order(-distance))
 doctor.connections <- subset(doc.with.location, distance > 100)
 
 # While iterating on UI use only a sample of the connections
-doctor.connections <- doctor.connections[sample(1:nrow(doctor.connections), 100000, replace=F),]
+#doctor.connections <- doctor.connections[sample(1:nrow(doctor.connections), 100000, replace=F),]
 
 doctor.connections$index <- 1:nrow(doctor.connections)
 
