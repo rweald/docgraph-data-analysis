@@ -13,7 +13,6 @@ colnames(referrals) <- c("doc1", "doc2", "number.of.patients")
 
 npi.to.state <- read.csv("~/Downloads/Physician provider ID (NPI) data dump/npi-to-state.csv", as.is  =  T)
 colnames(npi.to.state) <- c("npi.number", "state")
-ddply(npi.to.state, c("state"), summarize, docs = nrow(state))
 
 tmp1 <- merge(referrals, npi.to.state, by.x = "doc1", by.y = "npi.number")
 refs.with.state <- merge(tmp1, npi.to.state, by.x = "doc2", by.y = "npi.number")
@@ -25,6 +24,8 @@ out.of.state <- subset(patients.by.state, doc1.state != doc2.state)
 out.of.state <- subset(out.of.state, (doc1.state %in% states) & (doc2.state %in% states))
 
 default.color <- "ivory"
+
+png("inter-state-referrals-heatmap.png", width = 3600, height = 2025)
 
 ggplot(out.of.state, aes(doc1.state, doc2.state)) +
   geom_tile(aes(fill = log(patients)), colour = default.color) + 
@@ -39,3 +40,4 @@ ggplot(out.of.state, aes(doc1.state, doc2.state)) +
         axis.ticks = element_blank(),
         axis.text.x = element_text(angle = 90))
 
+dev.off()
