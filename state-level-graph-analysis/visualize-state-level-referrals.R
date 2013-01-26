@@ -150,7 +150,8 @@ choropleth <- choropleth[order(choropleth$order), ]
 steps <- seq(from = round(min(choropleth$ration.out.vs.in), digits = 2), to = round(max(choropleth$ration.out.vs.in), digits = 2), by = 0.05)
 
 ggplot(choropleth, aes(long, lat, group = group)) +
-  geom_polygon(aes(fill= ration.out.vs.in), size=1, colour = "black") +
+  geom_polygon(aes(fill= ration.out.vs.in)) +
+  geom_polygon(size = 1, colour = "black", fill = NA) +
   scale_fill_gradient(low = rgb(252,187,136, maxColorValue=255),
                       high = rgb(215,73,25, maxColorValue=255),
                       name = "",
@@ -174,7 +175,7 @@ choropleth <- choropleth[order(choropleth$order), ]
 steps <- seq(from = 0.0, to = 1.0, by = 0.05)
 
 ggplot(choropleth, aes(long, lat, group = group)) +
-  geom_polygon(aes_string(fill= "percent.in.state")) +
+  geom_polygon(aes(fill= percent.in.state)) +
   geom_polygon(size=1, colour = "black", fill = NA) +
   scale_fill_gradient(low = rgb(252,187,136, maxColorValue=255),
                       high = rgb(215,73,25, maxColorValue=255),
