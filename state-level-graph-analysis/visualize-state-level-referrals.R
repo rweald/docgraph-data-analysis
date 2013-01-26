@@ -62,22 +62,21 @@ choropleth <- merge(state_df, degree.by.state, by = "region", all.x = T)
 choropleth[with(choropleth, is.na(ration.out.vs.in)),]$ration.out.vs.in <- 1
 choropleth <- choropleth[order(choropleth$order), ]
 
-
-choropleth$ratio_d <- cut(choropleth$ration.out.vs.in, breaks = 9)
-
 ggplot(choropleth, aes(long, lat, group = group)) +
   geom_polygon(aes(fill= ration.out.vs.in), size=0.2) +
   scale_fill_gradient(low = rgb(252,187,136, maxColorValue=255),
                       high = rgb(215,73,25, maxColorValue=255),
-                      name = "Ration Outbound/Inbound Referrals") +
+                      name = "") +
   labs(title = "Ration of Outbound vs Inboud Referrals") +
   blank_theme() +
   theme(legend.position = "bottom",
         plot.title = element_text(size = 50),
-        legend.text = element_text(size = 30),
-        legend.title = element_text(size = 30))
+        legend.text = element_text(size = 60),
+        legend.background = element_rect(size = 60),
+        legend.key.width = unit(0.075, "npc"),
+        legend.title = element_text(size = 40))
 
-ggsave("outbound-vs-inbound-choropleth-dev.png", width=40, height = 25)
+ggsave("outbound-vs-inbound-choropleth-dev.png", width=40, height = 25, units = "in")
 
 
 ################################################################################
