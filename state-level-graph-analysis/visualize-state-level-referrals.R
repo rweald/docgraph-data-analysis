@@ -58,16 +58,13 @@ blank_theme <- function() {
          )
 }
 
-custom_theme <- function() {
-  return(
-    theme(legend.position = "bottom",
-          plot.title = element_text(size = 50),
-          legend.text = element_text(size = 60),
-          legend.background = element_rect(size = 60),
-          legend.key.width = unit(0.075, "npc"),
-          legend.title = element_text(size = 40))
-  )
-}
+custom_map_theme <- theme(legend.position = "bottom",
+                          plot.title = element_text(size = 50),
+                          legend.text = element_text(size = 60),
+                          legend.background = element_rect(size = 60),
+                          legend.key.width = unit(0.075, "npc"),
+                          legend.title = element_text(size = 40))
+
 
 # Combine the referrals data with the NPI database to get state location of Doc
 referrals <- read.csv("~/code/docgraph-data-analysis/refer.2011.sample2.csv", header = F)
@@ -110,37 +107,9 @@ all.by.state <- transform(all.by.state, percent.in.state = (patients / total.ref
 state.names <- data.frame(region = tolower(state.name), abbreviation = state.abb)
 all.by.state <- merge(all.by.state, state.names, by.x = "state", by.y = "abbreviation")
 
-################################################################################
-#choropleth plot of indegree vs outdegree for each state
-state_df <- map_data("state")
-
-choropleth <- merge(state_df, all.by.state, by = "region", all.x = T)
-choropleth[with(choropleth, is.na(ration.out.vs.in)),]$ration.out.vs.in <- 1
-choropleth <- choropleth[order(choropleth$order), ]
-
-steps <- seq(from = round(min(choropleth$ration.out.vs.in), digits = 2), to = round(max(choropleth$ration.out.vs.in), digits = 2), by = 0.05)
-
-ggplot(choropleth, aes(long, lat, group = group)) +
-  geom_polygon(aes(fill= ration.out.vs.in), size=0.2) +
-  scale_fill_gradient(low = rgb(252,187,136, maxColorValue=255),
-                      high = rgb(215,73,25, maxColorValue=255),
-                      name = "",
-                      labels = steps,
-                      breaks = steps) +
-  labs(title = "Ration of Outbound vs Inboud Referrals") +
-  blank_theme() +
-  theme(legend.position = "bottom",
-        plot.title = element_text(size = 50),
-        legend.text = element_text(size = 60),
-        legend.background = element_rect(size = 60),
-        legend.key.width = unit(0.075, "npc"),
-        legend.title = element_text(size = 40))
-
-ggsave("outbound-vs-inbound-choropleth-dev.png", width=40, height = 25, units = "in")
 
 ################################################################################
 #basic statistical plots of state level data
-
 
 png("general-statistical-plots.png", width=40, height = 25, units = "in", res = 72)
 
@@ -189,12 +158,7 @@ ggplot(choropleth, aes(long, lat, group = group)) +
                       breaks = steps) +
   labs(title = "Ration of Outbound vs Inboud Referrals") +
   blank_theme() +
-  theme(legend.position = "bottom",
-        plot.title = element_text(size = 50),
-        legend.text = element_text(size = 60),
-        legend.background = element_rect(size = 60),
-        legend.key.width = unit(0.075, "npc"),
-        legend.title = element_text(size = 40))
+  custom_map_theme
 
 ggsave("outbound-vs-inbound-choropleth-dev.png", width=40, height = 25, units = "in")
 
@@ -219,46 +183,13 @@ ggplot(choropleth, aes(long, lat, group = group)) +
                       breaks = steps) +
   labs(title = "Percent of Referrals That Stay In State") +
   blank_theme() +
-  theme(legend.position = "bottom",
-        plot.title = element_text(size = 50),
-        legend.text = element_text(size = 60),
-        legend.background = element_rect(size = 60),
-        legend.key.width = unit(0.075, "npc"),
-        legend.title = element_text(size = 40))
+  custom_map_theme
 
 ggsave("percent-in-state-choropleth-dev.png", width=40, height = 25, units = "in")
 
 ################################################################################
-#choropleth plot of percent from out of state
-state_df <- map_data("state")
-
-choropleth <- merge(state_df, all.by.state, by = "region", all.x = T)
-choropleth[with(choropleth, is.na(percent.in.state)),]$percent.in.state <- mean(choropleth$percent.in.state)
-choropleth <- choropleth[order(choropleth$order), ]
-
-steps <- seq(from = round(min(choropleth$percent.in.state), digits = 2), to = round(max(choropleth$percent.in.state), digits = 2), by = 0.05)
-
-ggplot(choropleth, aes(long, lat, group = group)) +
-  geom_polygon(aes(fill= percent.in.state), size=0.2) +
-  scale_fill_gradient(low = rgb(252,187,136, maxColorValue=255),
-                      high = rgb(215,73,25, maxColorValue=255),
-                      name = "",
-                      labels = steps,
-                      breaks = steps) +
-  labs(title = "Ration of Outbound vs Inboud Referrals") +
-  blank_theme() +
-  theme(legend.position = "bottom",
-        plot.title = element_text(size = 50),
-        legend.text = element_text(size = 60),
-        legend.background = element_rect(size = 60),
-        legend.key.width = unit(0.075, "npc"),
-        legend.title = element_text(size = 40))
-
-ggsave("outbound-vs-inbound-choropleth-dev.png", width=40, height = 25, units = "in")
-
-
-################################################################################
 # Matrix plot of Inter-State referrals
+
 default.color <- "ivory"
 
 png("inter-state-referrals-heatmap.png", width = 3600, height = 2025)
