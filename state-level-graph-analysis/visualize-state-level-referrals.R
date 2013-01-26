@@ -21,8 +21,8 @@ colnames(refs.with.state) <- c("doc2", "doc1", "number.of.patients", "doc1.state
 
 patients.by.state <- ddply(refs.with.state, c("doc1.state", "doc2.state"), summarize, patients = sum(number.of.patients))
 
-out.of.state <- subset(patients.by.state, (doc1.state %in% states) & (doc2.state %in% states))
-out.of.state <- subset(out.of.state, doc1.state != doc2.state)
+patients.by.state <- subset(patients.by.state, (doc1.state %in% states) & (doc2.state %in% states))
+out.of.state <- subset(patients.by.state, doc1.state != doc2.state)
 
 default.color <- "ivory"
 
