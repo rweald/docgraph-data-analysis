@@ -126,7 +126,7 @@ ggplot(choropleth, aes(long, lat, group = group)) +
 ggsave("percent-in-state-choropleth-dev.png", width=40, height = 25, units = "in")
 
 ################################################################################
-#choropleth plot of percent out-of-state
+#choropleth plot of percent of referrals that leave state
 
 state_df <- map_data("state")
 
