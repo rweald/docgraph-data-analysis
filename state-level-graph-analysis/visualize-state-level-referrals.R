@@ -2,12 +2,6 @@ library(ggplot2)
 library(plyr)
 library(maps)
 
-states <- c("AL","AK","AZ","AR","CA","CO","CT","DE","DC",
-            "FL","GA","HI","ID","IL","IN","IA","KS","KY",
-            "LA","ME","MT","NE","NV","NH","NJ","NM","NY",
-            "NC","ND","OH","OK","OR","MD","MA","MI","MN","MS","MO",
-            "PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY")
-
 # Combine the referrals data with the NPI database to get state location of Doc
 referrals <- read.csv("~/code/docgraph-data-analysis/refer.2011.sample2.csv", header = F)
 colnames(referrals) <- c("doc1", "doc2", "number.of.patients")
@@ -23,7 +17,7 @@ colnames(refs.with.state) <- c("doc2", "doc1", "number.of.patients", "doc1.state
 # Aggregate referrals on a state level and remove any badly formatted states
 patients.by.state <- ddply(refs.with.state, c("doc1.state", "doc2.state"), summarize, patients = sum(number.of.patients))
 
-patients.by.state <- subset(patients.by.state, (doc1.state %in% states) & (doc2.state %in% states))
+patients.by.state <- subset(patients.by.state, (doc1.state %in% state.abb) & (doc2.state %in% state.abb))
 out.of.state <- subset(patients.by.state, doc1.state != doc2.state)
 
 
