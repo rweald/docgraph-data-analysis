@@ -86,6 +86,7 @@ choropleth <- choropleth[order(choropleth$order), ]
 
 steps <- seq(from = round(min(choropleth$ration.out.vs.in), digits = 2), to = round(max(choropleth$ration.out.vs.in), digits = 2), by = 0.05)
 
+png("outbound-vs-inbound-choropleth-dev.png", width=40, height = 25, units = "in", res = 72)
 ggplot(choropleth, aes(long, lat, group = group)) +
   geom_polygon(aes(fill= ration.out.vs.in)) +
   geom_polygon(size = 1, colour = "black", fill = NA) +
@@ -98,8 +99,7 @@ ggplot(choropleth, aes(long, lat, group = group)) +
   blank_theme() +
   custom_map_theme()
 
-ggsave("outbound-vs-inbound-choropleth-dev.png", width=40, height = 25, units = "in")
-
+dev.off()
 
 ################################################################################
 #choropleth plot of percent in-state
@@ -110,6 +110,8 @@ choropleth[with(choropleth, is.na(percent.in.state)),]$percent.in.state <- mean(
 choropleth <- choropleth[order(choropleth$order), ]
 
 steps <- seq(from = 0.0, to = 1.0, by = 0.05)
+
+png("percent-in-state-choropleth-dev.png", width=40, height = 25, units = "in", res = 72)
 
 ggplot(choropleth, aes(long, lat, group = group)) +
   geom_polygon(aes(fill= percent.in.state)) +
@@ -123,7 +125,7 @@ ggplot(choropleth, aes(long, lat, group = group)) +
   blank_theme() +
   custom_map_theme()
 
-ggsave("percent-in-state-choropleth-dev.png", width=40, height = 25, units = "in")
+dev.off()
 
 ################################################################################
 #choropleth plot of percent of referrals that leave state
@@ -136,6 +138,7 @@ choropleth <- choropleth[order(choropleth$order), ]
 
 steps <- seq(from = 0.0, to = 1.0, by = 0.05)
 
+png("percent-leaving-state-choropleth-dev.png", width=40, height = 25, units = "in", res = 72)
 ggplot(choropleth, aes(long, lat, group = group)) +
   geom_polygon(aes(fill= percent.leaving.state)) +
   geom_polygon(size=1, colour = "black", fill = NA) +
@@ -148,7 +151,7 @@ ggplot(choropleth, aes(long, lat, group = group)) +
   blank_theme() +
   custom_map_theme()
 
-ggsave("percent-leaving-state-choropleth-dev.png", width=40, height = 25, units = "in")
+dev.off()
 
 ################################################################################
 # Matrix plot of Inter-State referrals
