@@ -39,6 +39,7 @@ patients.by.state <- ddply(refs.with.state, c("doc1.state", "doc2.state"), summa
 
 patients.by.state <- subset(patients.by.state, (doc1.state %in% state.abb) & (doc2.state %in% state.abb))
 out.of.state <- subset(patients.by.state, doc1.state != doc2.state)
+in.state <- subset(patients.by.state, doc1.state == doc2.state)
 
 
 # Compute the indegree and outdegree for each state in preperation for graphing
@@ -48,21 +49,29 @@ out.degree <- ddply(out.of.state, c("doc1.state"), summarize, outdegree = sum(pa
 degree.by.state <- merge(in.degree, out.degree, by.x = "doc2.state", by.y = "doc1.state")
 colnames(degree.by.state) <- c("state", "indegree", "outdegree")
 
-degree.by.state$ration.out.vs.in <- degree.by.state$outdegree / degree.by.state$indegree
+#degree.by.state$ration.out.vs.in <- degree.by.state$outdegree / degree.by.state$indegree
+
+all.by.state <- merge(degree.by.state, in.state, by.x = "state", by.y = "doc1.state")
+
+all.by.state <- transform(all.by.state, total.referrals = patients + indegree + outdegree) 
+all.by.state <- transform(all.by.state, percent.in.state = (patients / total.referrals), 
+                          percent.from.out.of.state = (indegree / total.referrals),
+                          percent.leaving.state = (outdegree / total.referrals),
+                          ration.out.vs.in = (outdegree / indegree))
 
 #Get state data in a format that can be merged with Maps state names
 state.names <- data.frame(region = tolower(state.name), abbreviation = state.abb)
-degree.by.state <- merge(degree.by.state, state.names, by.x = "state", by.y = "abbreviation")
+all.by.state <- merge(all.by.state, state.names, by.x = "state", by.y = "abbreviation")
 
 ################################################################################
 #choropleth plot of indegree vs outdegree for each state
 state_df <- map_data("state")
 
-choropleth <- merge(state_df, degree.by.state, by = "region", all.x = T)
+choropleth <- merge(state_df, all.by.state, by = "region", all.x = T)
 choropleth[with(choropleth, is.na(ration.out.vs.in)),]$ration.out.vs.in <- 1
 choropleth <- choropleth[order(choropleth$order), ]
 
-steps <- seq(from = round(min(choropleth$ration.out.vs.in), digits = 2), to = round(max(choropleth$ration.out.vs.in), digits = 2), by = 0.1)
+steps <- seq(from = round(min(choropleth$ration.out.vs.in), digits = 2), to = round(max(choropleth$ration.out.vs.in), digits = 2), by = 0.05)
 
 ggplot(choropleth, aes(long, lat, group = group)) +
   geom_polygon(aes(fill= ration.out.vs.in), size=0.2) +
