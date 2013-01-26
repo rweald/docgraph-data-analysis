@@ -189,6 +189,31 @@ ggplot(choropleth, aes(long, lat, group = group)) +
 ggsave("percent-in-state-choropleth-dev.png", width=40, height = 25, units = "in")
 
 ################################################################################
+#choropleth plot of percent out-of-state
+
+state_df <- map_data("state")
+
+choropleth <- merge(state_df, all.by.state, by = "region", all.x = T)
+choropleth[with(choropleth, is.na(percent.leaving.state)),]$percent.leaving.state <- mean(choropleth$percent.leaving.state)
+choropleth <- choropleth[order(choropleth$order), ]
+
+steps <- seq(from = 0.0, to = 1.0, by = 0.05)
+
+ggplot(choropleth, aes(long, lat, group = group)) +
+  geom_polygon(aes(fill= percent.leaving.state)) +
+  geom_polygon(size=1, colour = "black", fill = NA) +
+  scale_fill_gradient(low = rgb(252,187,136, maxColorValue=255),
+                      high = rgb(215,73,25, maxColorValue=255),
+                      name = "",
+                      labels = steps,
+                      breaks = steps) +
+  labs(title = "Percent of Referrals That Leave State") +
+  blank_theme() +
+  custom_map_theme
+
+ggsave("percent-leaving-state-choropleth-dev.png", width=40, height = 25, units = "in")
+
+################################################################################
 # Matrix plot of Inter-State referrals
 
 default.color <- "ivory"
