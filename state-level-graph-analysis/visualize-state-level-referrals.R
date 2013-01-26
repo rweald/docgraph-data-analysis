@@ -15,21 +15,22 @@ npi.to.state <- read.csv("~/Downloads/Physician provider ID (NPI) data dump/npi-
 colnames(npi.to.state) <- c("npi.number", "state")
 
 tmp1 <- merge(referrals, npi.to.state, by.x = "doc1", by.y = "npi.number")
+colnames(tmp1) <- c("doc1", "doc2", "number.of.patients", "doc1.state")
 refs.with.state <- merge(tmp1, npi.to.state, by.x = "doc2", by.y = "npi.number")
 colnames(refs.with.state) <- c("doc2", "doc1", "number.of.patients", "doc1.state", "doc2.state")
 
 patients.by.state <- ddply(refs.with.state, c("doc1.state", "doc2.state"), summarize, patients = sum(number.of.patients))
 
-out.of.state <- subset(patients.by.state, doc1.state != doc2.state)
-out.of.state <- subset(out.of.state, (doc1.state %in% states) & (doc2.state %in% states))
+out.of.state <- subset(patients.by.state, (doc1.state %in% states) & (doc2.state %in% states))
+out.of.state <- subset(out.of.state, doc1.state != doc2.state)
 
 default.color <- "ivory"
 
 png("inter-state-referrals-heatmap.png", width = 3600, height = 2025)
 
 ggplot(out.of.state, aes(doc1.state, doc2.state)) +
-  geom_tile(aes(fill = log(patients)), colour = default.color) + 
-  scale_fill_gradient(low = default.color, 
+  geom_tile(aes(fill = patients), colour = default.color) +
+  scale_fill_gradient(low = default.color,
                       high = "orange",
                       name = "Log Scale Number of Patients") +
   labs(x = "Referring State",
