@@ -18,5 +18,3 @@ ggplot(distance.by.state) +
         axis.text.y = element_text(size = 20))
 
 dev.off()
-
-
