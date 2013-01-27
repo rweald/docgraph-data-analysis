@@ -153,13 +153,22 @@ ggplot(out.of.state, aes(doc1.state, doc2.state)) +
   geom_tile(aes(fill = patients), colour = default.color) +
   scale_fill_gradient(low = default.color,
                       high = "orange",
-                      name = "Log Scale Number of Patients") +
+                      name = "Number of Patients") +
   labs(x = "Referring State",
        y = "State Being Referred To",
        title = "DocGraph Inter-State Referrals") +
   theme(plot.background = element_rect(fill = "white", colour = default.color),
         panel.background = element_rect(fill = default.color, colour = default.color),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 90))
+        axis.text.x = element_text(angle = 90)) +
+  custom_map_theme() +
+  theme(axis.text.x = element_text(size = 35),
+        axis.text.y = element_text(size = 35),
+        axis.title.x = element_text(size = 45),
+        axis.title.y = element_text(size = 45),
+        legend.text = element_text(size = 40),
+        legend.position = "right",
+        legend.key.height = unit(0.05, "npc"),
+        legend.key.width = unit(0.025, "npc"))
 
 dev.off()
