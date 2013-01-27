@@ -48,7 +48,7 @@ text.theme <- theme(plot.title = element_text(size = 35),
 
 g1 <- ggplot(all.by.state) +
   geom_density(aes(percent.in.state), fill = "lightblue") +
-  ggtitle("Distribution - Percent of Total Referrals That Stay In State - Distribution") +
+  ggtitle("Distribution - Percent of Total Referrals That Stay In State") +
   text.theme
 
 g2 <- ggplot(all.by.state) +
@@ -58,7 +58,7 @@ g2 <- ggplot(all.by.state) +
 
 g3 <- ggplot(all.by.state) +
   geom_density(aes(percent.leaving.state), fill = "mediumaquamarine") +
-  ggtitle("Distribution - Percent of Total Referrals That Leave State - Distribution") +
+  ggtitle("Distribution - Percent of Total Referrals That Leave State") +
   text.theme
 
 multiplot(g1, g2, g3, cols = 2)
