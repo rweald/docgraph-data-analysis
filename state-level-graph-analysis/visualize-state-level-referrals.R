@@ -5,7 +5,7 @@ source("state-level-graph-analysis/utils.R")
 
 # Combine the referrals data with the NPI database to get state location of Doc
 print("Loading Raw Data")
-referrals <- read.csv("~/code/docgraph-data-analysis/refer.2011.csv", header = F)
+referrals <- read.csv("~/code/docgraph-data-analysis/refer.2011.sample10.csv", header = F)
 colnames(referrals) <- c("doc1", "doc2", "number.of.patients")
 
 npi.to.state <- read.csv("~/Downloads/Physician provider ID (NPI) data dump/npi-to-state.csv", as.is  =  T)
