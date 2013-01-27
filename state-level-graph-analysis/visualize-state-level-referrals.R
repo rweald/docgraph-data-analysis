@@ -3,22 +3,8 @@ library(plyr)
 library(maps)
 source("state-level-graph-analysis/utils.R")
 
-# Combine the referrals data with the NPI database to get state location of Doc
-print("Loading Raw Data")
-referrals <- read.csv("~/code/docgraph-data-analysis/refer.2011.sample10.csv", header = F)
-colnames(referrals) <- c("doc1", "doc2", "number.of.patients")
-
-npi.to.state <- read.csv("~/Downloads/Physician provider ID (NPI) data dump/npi-to-state.csv", as.is  =  T)
-colnames(npi.to.state) <- c("npi.number", "state")
-
-tmp1 <- merge(referrals, npi.to.state, by.x = "doc1", by.y = "npi.number")
-colnames(tmp1) <- c("doc1", "doc2", "number.of.patients", "doc1.state")
-refs.with.state <- merge(tmp1, npi.to.state, by.x = "doc2", by.y = "npi.number")
-colnames(refs.with.state) <- c("doc2", "doc1", "number.of.patients", "doc1.state", "doc2.state")
-
-print("Aggregating and rolling up data")
-# Aggregate referrals on a state level and remove any badly formatted states
-patients.by.state <- ddply(refs.with.state, c("doc1.state", "doc2.state"), summarize, patients = sum(number.of.patients))
+patients.by.state <- read.csv("referrals-by-state.csv", as.is = TRUE)
+colnames(patients.by.state) <- c("doc1.state", "doc2.state", "patients")
 
 patients.by.state <- subset(patients.by.state, (doc1.state %in% state.abb) & (doc2.state %in% state.abb))
 out.of.state <- subset(patients.by.state, doc1.state != doc2.state)
