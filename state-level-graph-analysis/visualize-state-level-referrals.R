@@ -16,18 +16,9 @@ colnames(tmp1) <- c("doc1", "doc2", "number.of.patients", "doc1.state")
 refs.with.state <- merge(tmp1, npi.to.state, by.x = "doc2", by.y = "npi.number")
 colnames(refs.with.state) <- c("doc2", "doc1", "number.of.patients", "doc1.state", "doc2.state")
 
-#clear out some DFs that are now unnecessary
-referrals <- NULL
-tmp1 <- NULL
-npi.to.state <- NULL
-gc()
-
 print("Aggregating and rolling up data")
 # Aggregate referrals on a state level and remove any badly formatted states
 patients.by.state <- ddply(refs.with.state, c("doc1.state", "doc2.state"), summarize, patients = sum(number.of.patients))
-
-refs.with.state <- NULL
-gc()
 
 patients.by.state <- subset(patients.by.state, (doc1.state %in% state.abb) & (doc2.state %in% state.abb))
 out.of.state <- subset(patients.by.state, doc1.state != doc2.state)
