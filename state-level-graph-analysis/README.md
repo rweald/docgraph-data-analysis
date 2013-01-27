@@ -19,7 +19,7 @@ If you want to use the full data set this can be quite a computationally intense
 a CSV mapping NPI numbers to states. This can be achieved using the following unix sequence:
 
 ```
-cut -d "," -f 1,32 | ruby map-npi-to-state.rb > npi_to_state.csv
+cut -d "," -f 1,32 <path to NPI CSV>| ruby map-npi-to-state.rb > npi_to_state.csv
 ```
 
 You will then need to join this data with the DocGraph data by NPI number. This is the computationally expensive part at the DocGraph dataset is 40+ million rows.
