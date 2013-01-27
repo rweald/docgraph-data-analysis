@@ -2,6 +2,11 @@
 
 This repository contains my analyses of the [DocGraph](http://strata.oreilly.com/2012/11/docgraph-open-social-doctor-data.html) dataset.
 
+## Analyzing Out-of-State Referrals
+
+* Read the [blog post](http://isurfsoftware.com/blog/2013/01/27/analyzing-out-of-state-patient-referrals-using-docgraph/)
+* Checkout the [code](https://github.com/rweald/docgraph-data-analysis/tree/master/state-level-graph-analysis)
+
 ## Visualization of Geographic connections between doctors
 
 * Read the [blog post](http://isurfsoftware.com/blog/2012/12/13/visualizing-geographic-connections-between-us-doctors/)
