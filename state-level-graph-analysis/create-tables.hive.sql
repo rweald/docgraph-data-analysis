@@ -29,11 +29,11 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 LOCATION 'hdfs:///user/ec2-user/data/npi_to_location';
 
-create table npi_to_location AS
+CREATE TABLE npi_to_location AS
 SELECT
-  npi_to_location_tmp.npi_number as npi_number
+  npi_to_location_tmp.npi_number AS npi_number,
   lon,
   lat,
-  nps.state
+  nps.STATE
 FROM npi_to_location_tmp
-JOIN npi_to_state nps on nps.npi_number = npi_to_location_tmp.npi_number
+JOIN npi_to_state nps ON nps.npi_number = npi_to_location_tmp.npi_number
