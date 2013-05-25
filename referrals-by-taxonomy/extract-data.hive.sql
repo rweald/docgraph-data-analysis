@@ -49,7 +49,7 @@ INSERT OVERWRITE TABLE referrals_by_speciality
 SELECT
   referring_doc_data.classification,
   doc_referred_to_data.classification,
-  SUM(number_patients) AS number_of_patients
+  SUM(number_of_patients) AS number_patients
 FROM (
   SELECT
     referring_doc_data.taxonomy_code as referring_taxonomy_code,
@@ -64,7 +64,7 @@ FROM (
     (doc_referred_to_data.entity_type = 1)
   GROUP BY
     referring_doc_data.taxonomy_code,
-    doc_referred_to_data.taxonomy_code;
+    doc_referred_to_data.taxonomy_code
 ) by_taxonomy
 JOIN healthcare_provider_taxonomy referring_doc_data on referring_doc_data.code = by_taxonomy.referring_taxonomy_code
 JOIN healthcare_provider_taxonomy doc_referred_to_data on doc_referred_to_data.code = by_taxonomy.referred_to_taxonomy_code
